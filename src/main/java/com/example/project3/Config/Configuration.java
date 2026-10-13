@@ -26,6 +26,11 @@ public class Configuration {
 
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/auth/register").permitAll()
+                        .requestMatchers("/api/v1/account/add", "/api/v1/account/get/{accountId}", "/api/v1/account/my/accounts", "/api/v1/account/update/{accountId}", "/api/v1/account/delete/{accountId}"
+                                , "/api/v1/account/activate/{accountId}", "/api/v1/account/deposit/{accountId}", "/api/v1/account/withdraw/{accountId}", "/api/v1/account/transfer/{fromAccountId}/{toAccountId}",
+                                "/api/v1/customer/**").hasAuthority("CUSTOMER")
+                        .requestMatchers("/api/v1/employee/**").hasAuthority("EMPLOYEE")
+                        .requestMatchers("/api/v1/account/get", "/api/v1/auth/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .logout(logout -> logout

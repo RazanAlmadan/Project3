@@ -8,12 +8,14 @@ import com.example.project3.Repository.AuthRepository;
 import com.example.project3.Repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
 
     private final AuthRepository authRepository;
+    private final PasswordEncoder passwordEncoder;
     private final CustomerRepository customerRepository;
 
     public CustomerDTO getCustomerInfo(Integer customerId){
@@ -22,7 +24,7 @@ public class CustomerService {
             throw new ApiException("no customer found");
         }
         User user = authRepository.findUserById(customerId);
-        CustomerDTO customerDTO = new CustomerDTO(customerId, user.getUsername(), user.getPassword(), user.getName(), user.getEmail(), customer.getPhoneNumber());
+        CustomerDTO customerDTO = new CustomerDTO(customerId, user.getUsername(), null, user.getName(), user.getEmail(), customer.getPhoneNumber());
         return customerDTO;
     }
 
@@ -31,7 +33,7 @@ public class CustomerService {
         user.setName(customerDTO.getName());
         user.setUsername(customerDTO.getUsername());
         user.setEmail(customerDTO.getEmail());
-        user.setPassword(customerDTO.getPassword());
+        user.setPassword(passwordEncoder.encode(customerDTO.getPassword()));
         user.setRole("CUSTOMER");
         authRepository.save(user);
 
@@ -46,6 +48,7 @@ public class CustomerService {
         }
 
         customer.setPhoneNumber(customerDTO.getPhoneNumber());
+        customerRepository.save(customer);
         User user = authRepository.findUserById(userId);
         user.setName(customerDTO.getName());
         user.setUsername(customerDTO.getUsername());

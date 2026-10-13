@@ -1,6 +1,6 @@
 package com.example.project3.Controller;
 
-import com.example.project3.Api.ApiException;
+import com.example.project3.Api.ApiResponse;
 import com.example.project3.Model.User;
 import com.example.project3.Service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class AuthController {
     @DeleteMapping("/delete/{userId}")
     public ResponseEntity<?> deleteUser(@AuthenticationPrincipal User admin, @PathVariable Integer userId){
         authService.deleteUser(admin.getId(), userId);
-        return ResponseEntity.status(200).body(new ApiException("user deleted"));
+        return ResponseEntity.status(200).body(new ApiResponse("user deleted"));
     }
 
     @GetMapping("/get/employees")

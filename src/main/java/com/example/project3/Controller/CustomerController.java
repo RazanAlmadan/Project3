@@ -2,7 +2,6 @@ package com.example.project3.Controller;
 
 import com.example.project3.Api.ApiResponse;
 import com.example.project3.DTO.CustomerDTO;
-import com.example.project3.Model.Customer;
 import com.example.project3.Model.User;
 import com.example.project3.Service.CustomerService;
 import jakarta.validation.Valid;
@@ -19,8 +18,8 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @GetMapping("/get")
-    public ResponseEntity<?> getCustomerInfo(@AuthenticationPrincipal Customer customer){
-        return ResponseEntity.status(200).body(customerService.getCustomerInfo(customer.getId()));
+    public ResponseEntity<?> getCustomerInfo(@AuthenticationPrincipal User user){
+        return ResponseEntity.status(200).body(customerService.getCustomerInfo(user.getId()));
     }
 
     @PostMapping("/add")

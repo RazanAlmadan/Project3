@@ -2,7 +2,7 @@ package com.example.project3.Controller;
 
 import com.example.project3.Api.ApiResponse;
 import com.example.project3.DTO.EmployeeDTO;
-import com.example.project3.Model.Employee;
+import com.example.project3.Model.User;
 import com.example.project3.Service.EmployeeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +18,8 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @GetMapping("/get")
-    public ResponseEntity<?> getEmployeeInfo(@AuthenticationPrincipal Employee employee){
-        return ResponseEntity.status(200).body(employeeService.getEmployeeInfo(employee.getId()));
+    public ResponseEntity<?> getEmployeeInfo(@AuthenticationPrincipal User user){
+        return ResponseEntity.status(200).body(employeeService.getEmployeeInfo(user.getId()));
     }
 
     @PostMapping("/register")
@@ -29,8 +29,8 @@ public class EmployeeController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateEmployee(@AuthenticationPrincipal Employee employee, @RequestBody @Valid EmployeeDTO employeeDTO){
-        employeeService.updateEmployee(employee.getId(), employeeDTO);
+    public ResponseEntity<?> updateEmployee(@AuthenticationPrincipal User user, @RequestBody @Valid EmployeeDTO employeeDTO){
+        employeeService.updateEmployee(user.getId(), employeeDTO);
         return ResponseEntity.status(200).body(new ApiResponse("employee updated"));
     }
 }

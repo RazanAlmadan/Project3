@@ -8,12 +8,14 @@ import com.example.project3.Repository.AuthRepository;
 import com.example.project3.Repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 @RequiredArgsConstructor
 public class EmployeeService {
 
     private final AuthRepository authRepository;
+    private final PasswordEncoder passwordEncoder;
     private final EmployeeRepository employeeRepository;
 
     public EmployeeDTO getEmployeeInfo(Integer employeeId){
@@ -22,7 +24,7 @@ public class EmployeeService {
             throw new ApiException("no employee found");
         }
         User user = authRepository.findUserById(employeeId);
-        EmployeeDTO employeeDTO = new EmployeeDTO(employeeId, user.getUsername(), user.getPassword(), user.getName(), user.getEmail(), employee.getPosition(), employee.getSalary());
+        EmployeeDTO employeeDTO = new EmployeeDTO(employeeId, user.getUsername(), null, user.getName(), user.getEmail(), employee.getPosition(), employee.getSalary());
 
         return employeeDTO;
     }
@@ -32,7 +34,7 @@ public class EmployeeService {
         user.setName(employeeDTO.getName());
         user.setUsername(employeeDTO.getUsername());
         user.setEmail(employeeDTO.getEmail());
-        user.setPassword(employeeDTO.getPassword());
+        user.setPassword(passwordEncoder.encode(employeeDTO.getPassword()));
         user.setRole("EMPLOYEE");
         authRepository.save(user);
 
@@ -49,6 +51,7 @@ public class EmployeeService {
 
         employee.setPosition(employeeDTO.getPosition());
         employee.setSalary(employeeDTO.getSalary());
+        employeeRepository.save(employee);
         User user = authRepository.findUserById(userId);
         user.setName(employeeDTO.getName());
         user.setUsername(employeeDTO.getUsername());
