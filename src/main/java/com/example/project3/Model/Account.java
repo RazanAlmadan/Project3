@@ -28,7 +28,6 @@ public class Account {
 
     private Boolean isActive = false;
 
-    private Boolean isBlocked = false;
 
     @ManyToOne
     @JoinColumn

@@ -21,18 +21,6 @@ public class Customer {
     private Integer id;
 
 
-//    @Column(columnDefinition = "varchar(50) not null unique")
-//    private String username;
-//
-//    @Column(columnDefinition = "varchar(255)")
-//    private String password;
-//
-//    @Column(columnDefinition = "varchar(50) not null")
-//    private String name;
-//
-//    @Column(columnDefinition = "varchar(50) unique")
-//    private String email;
-
     @Column(columnDefinition = "varchar(50)")
     private String phoneNumber;
 

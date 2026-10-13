@@ -22,7 +22,7 @@ public class CustomerController {
         return ResponseEntity.status(200).body(customerService.getCustomerInfo(user.getId()));
     }
 
-    @PostMapping("/add")
+    @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid CustomerDTO customerDTO){
         customerService.register(customerDTO);
         return ResponseEntity.status(200).body(new ApiResponse("customer added"));
